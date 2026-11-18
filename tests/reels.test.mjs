@@ -62,9 +62,9 @@ test('a malformed optional metadata file identifies the upload path', (t) => {
   assert.throws(() => getReels(directory), /Invalid public\/reels\/reels\.json/);
 });
 
-test('duration labels round to seconds and never show non-finite values', () => {
+test('duration labels match native whole seconds and never show non-finite values', () => {
   assert.equal(reelDuration(65.2), '1:05');
-  assert.equal(reelDuration(59.8), '1:00');
-  assert.equal(reelDuration(0.4), '0:01');
+  assert.equal(reelDuration(59.8), '0:59');
+  assert.equal(reelDuration(0.4), '0:00');
   for (const value of [Infinity, NaN, 0, -3, '42']) assert.equal(reelDuration(value), undefined);
 });

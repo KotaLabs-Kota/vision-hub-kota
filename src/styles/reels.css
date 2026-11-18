@@ -48,7 +48,10 @@
 .reel-row-play { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: #e9ede2; color: var(--olive); }
 .reel-pick[aria-pressed='true'] .reel-row-play { background: var(--olive); color: var(--paper); }
 .reel-empty { grid-template-columns: auto minmax(0, 1fr); }
-.reel-sound { margin-top: 10px; color: var(--muted); font-size: 12px; }
+.reel-sound, .reel-offers { color: var(--muted); font-size: 12px; }
+.reel-sound { margin-top: 10px; }
+.reel-offers { margin-top: 4px; }
+.reel-offers a { color: var(--olive); text-decoration: underline; text-underline-offset: 3px; }
 .reel-direct-links { margin: 0; padding-left: 21px; }
 .reel-direct-links a { text-decoration: underline; text-underline-offset: 3px; }
 .reels-social { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 5px 16px; margin-top: 23px; padding-top: 14px; border-top: 1px solid var(--reel-line); }

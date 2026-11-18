@@ -8,13 +8,14 @@ import { reelNumber } from '../lib/reel-format.mjs';
 const reels = getReels();
 const [first] = reels;
 const count = reelNumber(reels.length);
+const mediaPreload = (reel: (typeof reels)[number]) => reel.poster && reel.duration ? 'none' : 'metadata';
 ---
 <section class="reels-section" id="reels" aria-labelledby="reels-title">
   <div class="shell reels-grid" data-reel-gallery>
     <div class="reels-copy">
       <span class="eyebrow reels-eyebrow"><Icon name="instagram" size={18} /> The Vision Hub reels</span>
       <h2 id="reels-title">Inside <em>Vision Hub.</em></h2>
-      <p>See what a visit to our Talwandi studio looks like, from trying on frames to getting your eyes tested.</p>
+      <p>Step inside our Talwandi studio and see how different frame styles look up close.</p>
 
       <div class="reel-playlist">
         <div class="reel-playlist-header">
@@ -26,7 +27,7 @@ const count = reelNumber(reels.length);
             <ul class="reel-picks requires-js" aria-labelledby="reel-list-title">
               {reels.map((reel, index) => (
                 <li>
-                  <button class="reel-pick" type="button" data-reel-pick data-src={reel.url} data-title={reel.title} data-captions={reel.captions} data-poster={reel.poster} aria-pressed={index === 0 ? 'true' : 'false'} aria-controls="vision-reel-player">
+                  <button class="reel-pick" type="button" data-reel-pick data-src={reel.url} data-title={reel.title} data-captions={reel.captions} data-poster={reel.poster} data-preload={mediaPreload(reel)} aria-pressed={index === 0 ? 'true' : 'false'} aria-controls="vision-reel-player">
                     <span class="reel-thumb" aria-hidden="true">
                       {reel.poster ? <img src={reel.poster} width="45" height="51" loading="lazy" decoding="async" alt="" /> : <Icon name="film" size={20} />}
                     </span>
@@ -41,6 +42,7 @@ const count = reelNumber(reels.length);
               <ul class="reel-direct-links" aria-labelledby="reel-list-title">{reels.map((reel) => <li><a href={reel.url}>{reel.title}</a></li>)}</ul>
             </noscript>
             <p class="reel-sound">Each clip starts muted. Use the player controls to turn sound on.</p>
+            <p class="reel-offers">Offers shown may have changed. <a href={studio.phoneHref}>Call the studio for current details</a>.</p>
           </>
         ) : (
           <div class="reel-empty">
@@ -67,7 +69,7 @@ const count = reelNumber(reels.length);
       <div class="reel-stage" id="vision-reel-player">
         {first ? (
           <>
-            <video class="reel-video" data-reel-video src={first.url} poster={first.poster} controls playsinline muted preload="metadata" aria-label={first.title}>
+            <video class="reel-video" data-reel-video src={first.url} poster={first.poster} controls playsinline muted preload={mediaPreload(first)} aria-label={first.title}>
               {first.captions && <track kind="captions" src={first.captions} srclang="en" label="English" />}
               Your browser can’t play this clip. <a href={studio.instagram} target="_blank" rel="noopener noreferrer">Watch on Instagram</a>.
             </video>

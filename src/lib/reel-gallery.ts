@@ -35,7 +35,7 @@ if (gallery && video && error && stage) {
   const selectReel = (index: number) => {
     const pick = picks[index];
     if (!pick) return;
-    const { title = 'Vision Hub Reel', poster, captions, src } = pick.dataset;
+    const { title = 'Vision Hub Reel', poster, captions, src, preload } = pick.dataset;
     if (!src || (index === current && !video.error)) return;
     current = index;
     video.pause();
@@ -54,6 +54,7 @@ if (gallery && video && error && stage) {
       video.append(track);
     }
     video.setAttribute('aria-label', title);
+    video.preload = preload === 'none' ? 'none' : 'metadata';
     video.src = src;
     picks.forEach((item, position) => item.setAttribute('aria-pressed', String(position === index)));
     if (counter) counter.textContent = `${reelNumber(index + 1)} / ${reelNumber(picks.length)}`;
