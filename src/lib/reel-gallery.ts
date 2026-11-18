@@ -11,6 +11,34 @@ if (gallery && video && error && stage) {
   const status = gallery.querySelector('[data-reel-status]');
   let current = 0;
 
+  const playReel = () => {
+    void video.play().catch(() => {
+      // If the browser blocks playback, the native controls remain available.
+    });
+  };
+
+  let autoplayObserver: IntersectionObserver | undefined;
+  const cancelAutoplay = () => {
+    autoplayObserver?.disconnect();
+    autoplayObserver = undefined;
+  };
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if ('IntersectionObserver' in window && !reducedMotion.matches) {
+    const visibleFraction = 0.35;
+    autoplayObserver = new IntersectionObserver(([entry]) => {
+      if (!autoplayObserver || !entry?.isIntersecting || entry.intersectionRatio < visibleFraction) return;
+      cancelAutoplay();
+      if (current === 0 && video.muted && video.paused && video.currentTime === 0 && !video.error && !reducedMotion.matches) {
+        playReel();
+      }
+    }, { threshold: visibleFraction });
+    // On mobile, the playlist can be visible well before the player is.
+    autoplayObserver.observe(stage);
+    video.addEventListener('play', cancelAutoplay, { once: true });
+    video.addEventListener('seeking', cancelAutoplay, { once: true });
+  }
+
   const showError = () => {
     const wasFocused = document.activeElement === video;
     video.hidden = true;
@@ -35,6 +63,7 @@ if (gallery && video && error && stage) {
   const selectReel = (index: number) => {
     const pick = picks[index];
     if (!pick) return;
+    cancelAutoplay();
     const { title = 'Vision Hub Reel', poster, captions, src, preload } = pick.dataset;
     if (!src || (index === current && !video.error)) return;
     current = index;
@@ -69,9 +98,7 @@ if (gallery && video && error && stage) {
       stage.scrollIntoView({ block: 'start' });
       video.focus({ preventScroll: true });
     }
-    void video.play().catch(() => {
-      // A browser can still deny playback. Leave the native play control available.
-    });
+    playReel();
   }));
   gallery.querySelectorAll<HTMLButtonElement>('[data-reel-step]').forEach((button) => {
     button.addEventListener('click', () => selectReel((current + Number(button.dataset.reelStep) + picks.length) % picks.length));

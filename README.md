@@ -32,7 +32,7 @@ On the PR's **head branch** in GitHub, open `public/reels/`, choose **Add file â
   }
   ```
 
-The next build picks up the files automatically. Selecting a clip in the list plays it muted in the vertical player; visitors can turn on sound with the player controls. Without uploaded clips, the cover and social link open [@visionhub.kota](https://www.instagram.com/visionhub.kota/reels/) instead.
+The next build picks up the files automatically. The first reel plays muted once the player comes into view, unless the browser blocks autoplay, the visitor prefers reduced motion, or they have already chosen a clip. Selecting a clip plays it muted; visitors can turn on sound with the player controls. Without uploaded clips, the cover and social link open [@visionhub.kota](https://www.instagram.com/visionhub.kota/reels/) instead.
 
 ## Business information and imagery
 
