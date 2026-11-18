@@ -1,0 +1,71 @@
+---
+import Icon from './Icon.astro';
+import { studio } from '../lib/studio';
+import { getReels } from '../lib/reels.mjs';
+
+const reels = getReels();
+const [first] = reels;
+const poster = '/images/reel.webp';
+const number = (value: number) => String(value).padStart(2, '0');
+---
+<section class="reels-section" id="reels" aria-labelledby="reels-title">
+  <div class="shell reels-grid" data-reel-gallery>
+    <div class="reels-copy">
+      <span class="eyebrow">The Vision Hub reels</span>
+      <h2 id="reels-title">A closer <em>look.</em></h2>
+      <p>Peek inside Vision Hub Kota. See frames up close, get ideas for your next try-on, and follow along on Instagram.</p>
+      <a class="button button-primary" href={studio.instagram} target="_blank" rel="noopener noreferrer">
+        <Icon name="instagram" size={19} /> {studio.handle} <Icon name="diagonal" size={17} />
+      </a>
+      {reels.length > 1 && (
+        <div class="reel-playlist requires-js">
+          <p class="micro">Choose a reel</p>
+          <div class="reel-picks" aria-label="Choose a reel" role="group">
+            {reels.map((reel, index) => (
+              <button class="reel-pick" type="button" data-reel-pick data-src={reel.url} data-title={reel.title} data-captions={reel.captions} aria-pressed={index === 0 ? 'true' : 'false'}>
+                <span>{number(index + 1)}</span> {reel.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+    <div class="reels-art">
+      <svg class="reels-orbit" viewBox="0 0 580 410" fill="none" aria-hidden="true" focusable="false">
+        <ellipse cx="290" cy="205" rx="272" ry="145" transform="rotate(-17 290 205)" />
+        <ellipse cx="290" cy="205" rx="244" ry="128" transform="rotate(-17 290 205)" />
+        <ellipse cx="290" cy="205" rx="219" ry="110" transform="rotate(-17 290 205)" />
+        <path d="M511 76v23m-11.5-11.5h23M83 312v19m-9.5-9.5h19" />
+      </svg>
+      <div class="reel-stage">
+        {first ? (
+          <>
+            <video class="reel-video" data-reel-video src={first.url} poster={poster} controls playsinline muted preload="none" aria-label={first.title}>
+              {first.captions && <track kind="captions" src={first.captions} srclang="en" label="English" />}
+              Your browser can’t play this clip. <a href={studio.instagram} target="_blank" rel="noopener noreferrer">Watch on Instagram</a>.
+            </video>
+            <div class="reel-error" data-reel-error hidden>
+              <p>This clip couldn’t load.</p>
+              <a href={studio.instagram} target="_blank" rel="noopener noreferrer">Watch on Instagram <Icon name="diagonal" size={15} /></a>
+            </div>
+          </>
+        ) : (
+          <a class="reel-cover" href={studio.instagram} target="_blank" rel="noopener noreferrer">
+            <img src={poster} width="550" height="985" loading="lazy" decoding="async" alt="" />
+            <span class="reel-cover-top"><Icon name="instagram" size={15} /> Reels</span>
+            <span class="reel-play"><Icon name="play" size={26} /></span>
+            <span class="reel-cover-bottom">Watch on Instagram <Icon name="diagonal" size={15} /></span>
+          </a>
+        )}
+      </div>
+      {reels.length > 1 && (
+        <div class="reel-nav requires-js" aria-label="Reel navigation" role="group">
+          <button class="icon-button round-button" type="button" data-reel-step="-1" aria-label="Previous reel"><Icon name="left" size={18} /></button>
+          <span class="micro" data-reel-counter aria-hidden="true">01 / {number(reels.length)}</span>
+          <button class="icon-button round-button" type="button" data-reel-step="1" aria-label="Next reel"><Icon name="right" size={18} /></button>
+        </div>
+      )}
+      {first && <span class="sr-only" data-reel-status role="status">Reel 1 of {reels.length}: {first.title}</span>}
+    </div>
+  </div>
+</section>
