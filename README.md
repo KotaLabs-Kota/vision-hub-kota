@@ -16,13 +16,23 @@ npm run build
 
 `npm run build` produces `dist/`. The repository can be imported into Vercel with the Astro preset; no environment variables, external APIs or database are needed.
 
-## Add the store video to the pull request
+## Upload reels to an open pull request
 
-1. Commit the video on the PR branch at **`public/reels/vision-hub-kota.mp4`**. A GitHub PR comment attachment alone will not add the file to the site.
-2. Use a compressed H.264 MP4 (AAC if it has audio), preferably vertical 9:16. Keep the file small enough to upload to GitHub and serve to mobile visitors.
-3. Optionally add **`public/reels/vision-hub-kota.vtt`** for English captions. Rebuild the site to include the new media.
+On the PR's **head branch** in GitHub, open `public/reels/`, choose **Add file → Upload files**, and commit directly to that branch. An attachment in a PR comment alone does not add the clip to the build.
 
-Before a clip is added, the reel cover links directly to [@visionhub.kota](https://www.instagram.com/visionhub.kota/reels/). Once the file is present, the same section renders a native player with controls, muted by default. Additional `.mp4` or `.webm` files in `public/reels/` get numbered selection controls and are sorted by filename after the featured clip. Use descriptive filenames and an optional `.vtt` file with the same basename for each clip.
+- **One reel:** `public/reels/vision-hub-kota.mp4` will be featured first and titled “Inside Vision Hub”.
+- **A playlist:** Add files such as `01-look-inside.mp4`, `02-frame-try-on.mp4`, and `03-frames-up-close.mp4` to the same folder. The numbers determine the order; displayed titles are inferred from the filenames.
+- **Format:** A compressed vertical 9:16 H.264 MP4 (AAC if it has audio) is recommended. WebM is also supported. Keep each file under GitHub's 25 MiB browser-upload limit and small enough for mobile visitors.
+- **Optional cover and captions:** For `02-frame-try-on.mp4`, upload `02-frame-try-on.webp` (or `.jpg`, `.jpeg`, or `.png`) to use it as the list thumbnail and player poster. Add `02-frame-try-on.vtt` for English captions.
+- **Optional label and length:** To show a specific title or a duration before its metadata loads, add `public/reels/reels.json` with entries keyed by exact video filename. For example:
+
+  ```json
+  {
+    "02-frame-try-on.mp4": { "title": "A frame try-on", "durationSeconds": 29 }
+  }
+  ```
+
+The next build picks up the files automatically. Selecting a clip in the list plays it muted in the vertical player; visitors can turn on sound with the player controls. Without uploaded clips, the cover and social link open [@visionhub.kota](https://www.instagram.com/visionhub.kota/reels/) instead.
 
 ## Business information and imagery
 
