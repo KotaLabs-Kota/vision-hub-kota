@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 415" fill="none">
+  <defs>
+    <pattern id="paper" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".45" fill="#687258" opacity=".17"/></pattern>
+    <pattern id="garden" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M3 11 11 3" stroke="#b2ba9c" stroke-width=".75"/></pattern>
+  </defs>
+  <path fill="#e9ece1" d="M0 0h640v415H0z"/>
+  <path fill="#dce2cf" d="M0 14 179 0l-32 111-56 23L0 104ZM492 137l100-23 48 19v122l-109-21ZM4 314l130-30 39 131H0Z"/>
+  <path fill="url(#garden)" d="m0 15 179-15-32 111-56 23L0 104Zm492 122 100-23 48 19v122l-109-21ZM4 314l130-30 39 131H0Z"/>
+  <path fill="url(#paper)" d="M0 0h640v415H0z"/>
+  <g stroke="#d2d8c6" stroke-width="1">
+    <path d="m35 138 50 143m6-159 50 158m35-183 49 160m6-182 49 155m10-170 46 147m8-157 40 144m107 51 50 157m-96-145 51 151m-104-135 49 144m-105-128 46 144m-104-132 46 148"/>
+    <path d="M0 196 420 71l220-66M0 246 440 119l200-62M0 310l462-137 178-52M35 370l454-143 151-39M143 394l367-112 130-35m-333 164 220-68 113-29m-53-300 22 71m-82-62 27 78m-65-60 23 75"/>
+  </g>
+  <g stroke="#f9f8ee" stroke-linecap="round">
+    <path d="M-25 335c158-45 331-95 447-139 97-37 158-68 240-65" stroke-width="11"/>
+    <path d="M159-23c38 114 67 227 106 326 17 45 36 79 63 133m76-457c58 143 91 293 121 456" stroke-width="8"/>
+    <path d="M-18 162 661-30M-16 416l652-193" stroke-width="7"/>
+  </g>
+  <path d="M-25 335c158-45 331-95 447-139 97-37 158-68 240-65" stroke="#d0c4a8" stroke-width="1.1" stroke-dasharray="4 5"/>
+  <path d="M266 250c26-7 54-16 81-25" stroke="#8a987e" stroke-width="3" stroke-linecap="round" stroke-dasharray="5 7"/>
+  <circle cx="350" cy="224" r="25" fill="#526149" opacity=".15"/>
+  <circle cx="350" cy="224" r="17" fill="#526149" opacity=".25"/>
+  <path d="M368 191c0 13-18 32-18 32s-18-19-18-32a18 18 0 1 1 36 0Z" fill="#3e4b38" stroke="#f9f8ee" stroke-width="2"/>
+  <circle cx="350" cy="191" r="5.5" stroke="#f9f8ee" stroke-width="1.6"/>
+  <text x="168" y="323" fill="#5e6956" font-family="sans-serif" font-size="11" font-weight="600" letter-spacing="3">TALWANDI</text>
+  <g transform="translate(591 51)" stroke="#59664f" stroke-width="1">
+    <circle r="16" fill="#f3f4eb"/><path d="m0 8 0-17m-4 5 4-5 4 5"/>
+  </g>
+</svg>

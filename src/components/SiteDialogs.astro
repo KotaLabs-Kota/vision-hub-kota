@@ -1,0 +1,51 @@
+---
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
+import { frames, navigation, studio } from '../lib/studio';
+---
+<dialog id="search-dialog" class="panel" aria-labelledby="search-dialog-title">
+  <form method="dialog" class="panel-close"><button class="icon-button round-button" type="submit" aria-label="Close search"><Icon name="close" /></button></form>
+  <span class="eyebrow">Find it fast</span>
+  <h2 id="search-dialog-title">Search Vision Hub.</h2>
+  <label for="site-search" class="sr-only">Search frames and services</label>
+  <div class="search-field"><Icon name="search" /><input type="search" id="site-search" placeholder="Try ‘sunglasses’ or ‘eye test’" autocomplete="off" autofocus /></div>
+  <p class="sr-only" id="search-status" role="status"></p>
+  <div class="panel-results" id="search-results"></div>
+</dialog>
+
+<dialog id="saved-dialog" class="panel" aria-labelledby="saved-dialog-title">
+  <form method="dialog" class="panel-close"><button class="icon-button round-button" type="submit" aria-label="Close saved frames" autofocus><Icon name="close" /></button></form>
+  <span class="eyebrow">Your shortlist</span>
+  <h2 id="saved-dialog-title">Saved frames.</h2>
+  <p class="panel-lead">Keep track of the styles you’d like to try on.</p>
+  <div class="panel-results" id="saved-results"></div>
+</dialog>
+
+<dialog id="frame-dialog" class="panel frame-panel" aria-labelledby="frame-dialog-title">
+  <form method="dialog" class="panel-close"><button class="icon-button round-button" type="submit" aria-label="Close frame details" autofocus><Icon name="close" /></button></form>
+  <img id="frame-dialog-image" src={frames[0].image} width="740" height="553" loading="lazy" decoding="async" alt={frames[0].alt} />
+  <div class="frame-panel-copy">
+    <span class="eyebrow" id="frame-dialog-category">The frame edit</span>
+    <h2 id="frame-dialog-title">{frames[0].name}</h2>
+    <p id="frame-dialog-meta" class="frame-panel-meta"></p>
+    <p id="frame-dialog-description"></p>
+    <p class="fine-print">Shown for style inspiration. Call to ask about current stock and pricing.</p>
+    <div class="button-row">
+      <a class="button button-primary" href={studio.phoneHref}><Icon name="phone" size={18} /> Call the studio</a>
+      <button type="button" class="button button-outline" data-save-frame={frames[0].id} data-save-current aria-pressed="false"><Icon name="heart" size={18} /> <span>Save frame</span></button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="menu-dialog" class="panel menu-panel" aria-label="Site menu">
+  <form method="dialog" class="panel-close"><button class="icon-button round-button" type="submit" aria-label="Close menu" autofocus><Icon name="close" /></button></form>
+  <Brand />
+  <nav aria-label="Mobile navigation">
+    {navigation.map((item) => <a href={item.href}>{item.label} <Icon name="right" /></a>)}
+  </nav>
+  <div class="menu-contact">
+    <a class="button button-primary" href="#eye-care">Book an eye test <Icon name="diagonal" size={18} /></a>
+    <a class="text-link" href={studio.instagram} target="_blank" rel="noopener noreferrer"><Icon name="instagram" size={18} /> {studio.handle}</a>
+  </div>
+</dialog>
+<div class="sr-only" id="saved-status" role="status"></div>
