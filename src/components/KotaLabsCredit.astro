@@ -1,0 +1,111 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+}
+
+const { href } = Astro.props;
+---
+<div class="shell kotalabs-credit">
+  <div class="credit-identity">
+    <span class="credit-mark" aria-hidden="true"><span>K<span>L</span></span></span>
+    <div class="credit-copy">
+      <p class="credit-eyebrow">Designed &amp; engineered by</p>
+      <div class="credit-details">
+        <p class="credit-name">KotaLabs</p>
+        <p class="credit-tagline">Next-gen 3D web, AR experiences &amp; digital flagships</p>
+      </div>
+    </div>
+  </div>
+  <a class="credit-link" href={href} target="_blank" rel="noopener noreferrer">
+    Explore KotaLabs <Icon name="right" size={17} /><span class="sr-only"> (opens in a new tab)</span>
+  </a>
+</div>
+
+<style>
+  .kotalabs-credit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    padding: clamp(16px, 1.7vw, 24px) clamp(16px, 2vw, 30px);
+    margin-bottom: clamp(16px, 1.8vw, 26px);
+    color: #f6faff;
+    background: radial-gradient(ellipse at 100% 0%, #173b52, transparent 36%), linear-gradient(105deg, #0e1b2a, #142639 55%, #101f31);
+    border: 1px solid #294356;
+    border-radius: clamp(19px, 2.1vw, 30px);
+    box-shadow: 0 12px 30px #111b2359;
+  }
+  .credit-identity { display: flex; align-items: center; gap: clamp(12px, 1.65vw, 23px); min-width: 0; }
+  .credit-mark {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 62px;
+    aspect-ratio: 1;
+    border: 1px solid #3a789b;
+    border-radius: 17px;
+    background: linear-gradient(140deg, #184360, #12263f);
+    box-shadow: inset 0 0 14px #32a8e319, 0 6px 18px #3cadde25;
+    font: 850 30px/1 var(--sans);
+    letter-spacing: -.07em;
+  }
+  .credit-mark > span > span { color: #4ec8f3; }
+  .credit-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    color: #abc3d7;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .credit-eyebrow::before {
+    content: '';
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #52d8a4;
+    box-shadow: 0 0 0 3px #52d8a426;
+  }
+  .credit-details { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 9px; }
+  .credit-name { font: 700 clamp(29px, 2.6vw, 36px)/.95 var(--serif); letter-spacing: -.04em; }
+  .credit-tagline { color: #b3c7d8; font-size: clamp(12px, 1.05vw, 15px); line-height: 1.5; }
+  .credit-tagline::before { content: '—'; margin-right: 6px; }
+  .credit-link {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    padding-inline: 18px;
+    border: 1px solid #73d9f8;
+    border-radius: 999px;
+    background: #4bc5f0;
+    box-shadow: 0 5px 20px #32bdfa38;
+    color: #092231;
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: background-color .2s, box-shadow .2s;
+  }
+  .kotalabs-credit a.credit-link:hover { background: #82dcfa; box-shadow: 0 6px 22px #64d7ff48; text-decoration: none; }
+  .kotalabs-credit .credit-link:focus-visible { outline-color: #a4eaff; }
+
+  @media (max-width: 980px) {
+    .credit-details { display: grid; gap: 3px; }
+    .credit-tagline::before { content: none; }
+  }
+
+  @media (max-width: 620px) {
+    .kotalabs-credit { flex-direction: column; align-items: flex-start; }
+    .credit-mark { width: 50px; border-radius: 13px; font-size: 25px; }
+    .credit-eyebrow { font-size: 9px; }
+  }
+</style>
