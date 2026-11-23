@@ -1,0 +1,50 @@
+---
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/cormorant-garamond';
+import '@fontsource-variable/cormorant-garamond/wght-italic.css';
+import '../styles/site.css';
+import SiteDialogs from '../components/SiteDialogs.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { studio } from '../lib/studio';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  structuredData?: Record<string, unknown>;
+}
+
+const { title, description, image, imageAlt, structuredData } = Astro.props;
+const canonical = new URL(Astro.url.pathname, studio.website).href;
+---
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fcfaf6" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={studio.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {image && <meta property="og:image" content={new URL(image, studio.website).href} />}
+    {imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
+    <noscript><style>.requires-js { display: none !important; }</style></noscript>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#content">Skip to content</a>
+    <SiteHeader />
+    <slot />
+    <SiteFooter />
+    <SiteDialogs />
+    <script src="../lib/site.ts"></script>
+  </body>
+</html>

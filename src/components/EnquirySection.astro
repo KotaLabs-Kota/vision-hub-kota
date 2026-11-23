@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro';
+import { studio, whatsappEnquiry } from '../lib/studio';
+import type { Frame } from '../lib/catalogue';
+
+interface Props {
+  frame?: Frame;
+}
+
+const { frame } = Astro.props;
+---
+<section class="enquiry-section" id="enquire" aria-labelledby="enquiry-title">
+  <div class="shell enquiry-inner">
+    <div>
+      <span class="eyebrow">{frame ? `Frame ${frame.code}` : 'Talk to Vision Hub'}</span>
+      <h2 id="enquiry-title">{frame ? <>Ask about <em>this frame.</em></> : <>Found a frame <em>you like?</em></>}</h2>
+      <p>{frame ? `Mention ${frame.name} or ${frame.code}. We’ll confirm availability and help with lenses or an in-store try-on.` : 'Call or send us a message for availability, help choosing lenses, or to try on a pair at our Talwandi studio.'}</p>
+    </div>
+    <div class="enquiry-contact">
+      <div class="enquiry-actions">
+        <a class="button button-primary" href={whatsappEnquiry(frame)} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" /> WhatsApp</a>
+        <a class="button button-outline" href={studio.phoneHref}><Icon name="phone" /> Call the studio</a>
+        <a class="button button-outline" href={studio.instagramMessage} target="_blank" rel="noopener noreferrer"><Icon name="instagram" /> Instagram DM</a>
+      </div>
+      <p class="fine-print">Find us on Instagram as <a href={studio.instagramProfile} target="_blank" rel="noopener noreferrer">{studio.handle}</a>.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .enquiry-section { background: var(--sage); border-top: 1px solid #d8dfce; }
+  .enquiry-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px 34px; padding-block: clamp(34px, 5vw, 72px); }
+  h2 { margin-top: 10px; font-size: clamp(40px, 4.4vw, 66px); }
+  h2 + p { max-width: 52ch; margin-top: 13px; color: var(--muted); }
+  .enquiry-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .enquiry-actions .button { min-height: 48px; padding-inline: 14px; gap: 7px; }
+  .enquiry-contact p { margin-top: 10px; }
+  .enquiry-contact p a { font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 980px) {
+    .enquiry-inner { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 460px) {
+    .enquiry-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .enquiry-actions .button-primary { grid-column: 1 / -1; }
+    .enquiry-actions .button { padding-inline: 7px; }
+  }
+</style>

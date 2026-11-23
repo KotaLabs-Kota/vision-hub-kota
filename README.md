@@ -1,6 +1,6 @@
 # Vision Hub Kota
 
-A static Astro storefront for the optician in Talwandi, Kota. The site includes a browsable frame edit, a locally saved shortlist, eye-test information, studio directions and an Instagram reel section. There is no checkout or online appointment system; visitors can call the studio to ask about availability.
+A static Astro storefront for the optician in Talwandi, Kota. It includes a frame catalogue with individual product pages, a locally saved shortlist, eye-test information, directions and an Instagram reel gallery. There are no listed prices, online checkout or appointment forms. Visitors enquire by phone, WhatsApp or Instagram DM.
 
 ## Run locally
 
@@ -14,7 +14,14 @@ npm test
 npm run build
 ```
 
-`npm run build` produces `dist/`. The repository can be imported into Vercel with the Astro preset; no environment variables, external APIs or database are needed.
+`npm run build` produces `dist/`. The connected Vercel project builds branch previews and deploys `main` to [vision-hub-kota.vercel.app](https://vision-hub-kota.vercel.app/). No environment variables, external APIs or database are needed.
+
+## Update the frame catalogue
+
+- `src/lib/catalogue.ts` defines the three collections and the frames. Keep each frame’s URL `id` and enquiry `code` stable once published.
+- Put approved photos in `public/images/frames/<id>/`. Each listed view (`front`, `angle`, or `folded`) needs a 1120×630 WebP and a 480×270 `-small.webp` thumbnail. The first view appears on the frame card, and all views are available on `/frames/<id>/`.
+- The catalogue, search, and shortlist all use the same entries. There are no stock or price fields; use the product page’s Frame ID when replying to a visitor. Keep prices and QR labels out of the photos.
+- `src/lib/studio.ts` holds the phone and Instagram account. WhatsApp uses the published shop number (`+91 96608 43997`), with the frame name and reference filled in on product pages. Confirm the number can receive WhatsApp messages before sharing the catalogue with customers.
 
 ## Upload reels to an open pull request
 
@@ -38,4 +45,4 @@ The next build picks up the files automatically. The first reel plays muted once
 
 - [Yappe](https://yappe.in/rajasthan/kota/vision-hub-best-optical-store-in-kota/1393564) and [Top-Rated](https://www.top-rated.online/cities/Kota/place/p/8948063/VISION+HUB-+Best+optical+store+in+kota) list the Talwandi location, phone number and eyewear services. The linked review excerpts are from the Yappe listing.
 - [Justdial](https://www.justdial.com/Kota-Rajasthan/Vision-Hub-Talwandi/9999PX744-X744-190517174002-V8L9_BZDET) lists Opera Road and the displayed 4.8 rating. Published opening hours differ across sources, so the site asks visitors to call instead of showing a fixed schedule.
-- The campaign, frame and eye-care artwork and the Instagram fallback cover are generated illustrations, not photos of the store or current stock. The on-site reel posters are stills from the uploaded shop videos. The location illustration is not to scale and opens Google Maps directions.
+- The catalogue and homepage use supplied frame photos. Duplicate photos were omitted, matching views were grouped, and price and QR print was removed from the two red rimless photos. The on-site reel posters are stills from the uploaded shop videos. The location illustration is not to scale and opens Google Maps directions.

@@ -73,9 +73,8 @@
 .reels-art :focus-visible { outline-color: #f8d7af; }
 .reel-stage { position: relative; width: min(100%, clamp(239px, 22.5vw, 318px)); aspect-ratio: 9 / 16; background: #252b23; border-radius: 16px; box-shadow: 0 16px 36px #19221866, 0 0 0 1px #ffffff20; }
 .reel-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #171c16; border-radius: inherit; }
-.reel-cover { position: relative; display: grid; place-items: center; width: 100%; height: 100%; overflow: hidden; border-radius: inherit; background: #745944; color: white; }
-.reel-cover::after { position: absolute; inset: 0; content: ''; background: linear-gradient(180deg, #1d1d16b0 0%, transparent 28%, transparent 58%, #19170fd1 100%); pointer-events: none; }
-.reel-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.reel-cover { position: relative; display: grid; place-items: center; width: 100%; height: 100%; overflow: hidden; border-radius: inherit; background: radial-gradient(ellipse at 40% 35%, #506449, #252e24 70%); color: white; }
+.reel-cover-mark { position: absolute; top: 45%; max-width: 82%; height: auto; transform: translateY(-50%); color: #d7e5c958; }
 .reel-cover-top, .reel-cover-bottom, .reel-play { z-index: 1; }
 .reel-cover-top { position: absolute; top: 16px; left: 16px; display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
 .reel-cover-bottom { position: absolute; bottom: 14px; left: 14px; right: 14px; display: flex; justify-content: center; align-items: center; gap: 5px; min-height: 41px; padding-inline: 5px; border: 1px solid #ffffff80; border-radius: 6px; background: #251e18c4; font-weight: 800; font-size: 12px; }

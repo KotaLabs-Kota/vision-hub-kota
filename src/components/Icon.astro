@@ -1,5 +1,5 @@
 ---
-export type IconName = 'mark' | 'right' | 'left' | 'diagonal' | 'up' | 'down' | 'pin' | 'search' | 'heart' | 'menu' | 'close' | 'star' | 'glasses' | 'square' | 'round' | 'phone' | 'clock' | 'instagram' | 'play' | 'film';
+export type IconName = 'mark' | 'right' | 'left' | 'diagonal' | 'up' | 'down' | 'pin' | 'search' | 'heart' | 'menu' | 'close' | 'star' | 'glasses' | 'square' | 'round' | 'phone' | 'clock' | 'instagram' | 'whatsapp' | 'play' | 'film';
 interface Props { name: IconName; size?: number; class?: string }
 const { name, size = 20, class: className } = Astro.props;
 ---
@@ -22,6 +22,7 @@ const { name, size = 20, class: className } = Astro.props;
   {name === 'phone' && <path d="M7.6 3.8H5.2A1.4 1.4 0 0 0 3.8 5.3c.5 8 6.9 14.4 14.9 14.9a1.4 1.4 0 0 0 1.5-1.4v-2.4a1.4 1.4 0 0 0-1.1-1.4l-3.3-.7a1.4 1.4 0 0 0-1.4.4l-1 1a12 12 0 0 1-5.1-5.1l1-1a1.4 1.4 0 0 0 .4-1.4L9 4.9a1.4 1.4 0 0 0-1.4-1.1Z"/>}
   {name === 'clock' && <><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></>}
   {name === 'instagram' && <><rect x="3.5" y="3.5" width="17" height="17" rx="4.8"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7.2" r=".85" fill="currentColor" stroke="none"/></>}
+  {name === 'whatsapp' && <><path d="M20.9 12a8.9 8.9 0 0 1-13 7.9L3 21l1.1-4.6A8.9 8.9 0 1 1 20.9 12Z"/><path d="M8.8 8.6c-.8.7-.5 2.4.8 4 1.3 1.7 3.1 2.6 4.5 2.4.7-.1 1.3-.6 1.4-1.2l-2-1.2-.8.8a5.2 5.2 0 0 1-2.4-2.5l.6-.8-1-1.8c-.4-.1-.8 0-1.1.3Z"/></>}
   {name === 'film' && <><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M8 4.5v15m8-15v15M3.5 10H8m8 0h4.5M3.5 14H8m8 0h4.5"/></>}
   {name === 'play' && <path d="M9 5.4 19 12 9 18.6Z" fill="currentColor" stroke="none"/>}
 </svg>

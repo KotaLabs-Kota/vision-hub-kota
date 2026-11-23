@@ -1,0 +1,35 @@
+---
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
+import KotaLabsCredit from './KotaLabsCredit.astro';
+import { navigation, studio, whatsappEnquiry } from '../lib/studio';
+
+const kotaLabsWebsite = 'https://www.kotalabs.in/';
+---
+<footer class="site-footer">
+  <div class="shell footer-main">
+    <div class="footer-brand"><Brand /><p>Eyewear and eye care in Talwandi, Kota.</p></div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <p class="micro">Explore</p>
+      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <div class="footer-links footer-visit">
+      <p class="micro">Visit the studio</p>
+      <a href={studio.directions} target="_blank" rel="noopener noreferrer">{studio.address[0]}<br />{studio.address[1]}</a>
+      <a href={studio.phoneHref}>{studio.phone}</a>
+    </div>
+    <div class="footer-links footer-social">
+      <p class="micro">Get in touch</p>
+      <a href={whatsappEnquiry()} target="_blank" rel="noopener noreferrer"><Icon name="whatsapp" size={19} /> WhatsApp <Icon name="diagonal" size={13} /></a>
+      <a href={studio.instagramProfile} target="_blank" rel="noopener noreferrer"><Icon name="instagram" size={19} /> {studio.handle} <Icon name="diagonal" size={13} /></a>
+    </div>
+  </div>
+  <KotaLabsCredit href={kotaLabsWebsite} />
+  <div class="shell footer-bottom">
+    <p>© {new Date().getFullYear()} Vision Hub Kota</p>
+    <div class="footer-bottom-links">
+      <a class="footer-credit-link" href={kotaLabsWebsite} target="_blank" rel="noopener noreferrer">Crafted by KotaLabs <Icon name="diagonal" size={14} /><span class="sr-only"> (opens in a new tab)</span></a>
+      <a href="#top">Back to top <Icon name="up" size={16} /></a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,57 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import EnquirySection from '../../components/EnquirySection.astro';
+import FrameGallery from '../../components/FrameGallery.astro';
+import Icon from '../../components/Icon.astro';
+import { frameSections, frames, photoSrc, type Frame } from '../../lib/catalogue';
+import '../../styles/product.css';
+
+export function getStaticPaths() {
+  return frames.map((frame) => ({ params: { id: frame.id }, props: { frame } }));
+}
+
+interface Props {
+  frame: Frame;
+}
+
+const { frame } = Astro.props;
+const section = frameSections.find((item) => item.id === frame.section);
+const title = `${frame.name} | Vision Hub Kota`;
+const description = `${frame.description} Ask Vision Hub Kota about availability and an in-store try-on in Talwandi.`;
+---
+<SiteLayout title={title} description={description} image={photoSrc(frame, frame.photos[0])} imageAlt={frame.photos[0].alt}>
+  <main id="content" tabindex="-1">
+    <div class="shell product-shell">
+      <nav class="product-breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/#frame-edit">All frames</a></li>
+          {section && <li><a href={`/#${section.id}`}>{section.name}</a></li>}
+          <li><span aria-current="page">{frame.name}</span></li>
+        </ol>
+      </nav>
+      <article class="product-grid" aria-labelledby="product-title">
+        <header class="product-heading">
+          <span class="eyebrow">Vision Hub catalogue · {frame.code}</span>
+          <h1 id="product-title">{frame.name}</h1>
+        </header>
+        <FrameGallery frame={frame} />
+        <div class="product-details">
+          <p class="product-description">{frame.description}</p>
+          <dl class="product-specs">
+            <div><dt class="micro">Shape</dt><dd>{frame.shape}</dd></div>
+            <div><dt class="micro">Finish</dt><dd>{frame.finish}</dd></div>
+          </dl>
+          <div class="product-visit">
+            <span class="product-visit-mark"><Icon name="pin" size={22} /></span>
+            <p><strong>Try it on in Talwandi</strong><br />Ask the studio to confirm availability and help with your prescription lenses.</p>
+          </div>
+          <div class="button-row product-actions">
+            <a class="button button-primary" href="#enquire">Enquire about this frame <Icon name="down" size={17} /></a>
+            <button class="button button-outline requires-js" data-save-frame={frame.id} type="button" aria-pressed="false"><Icon name="heart" size={18} /> Save frame</button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <EnquirySection frame={frame} />
+  </main>
+</SiteLayout>
