@@ -1,99 +1,38 @@
 const mapAddress = 'Vision Hub, 3-F-27, Opera Road, Sector 3, Talwandi, Kota, Rajasthan 324005';
+const phoneNumber = '+919660843997';
+const instagramAccount = 'visionhub.kota';
+const instagramProfile = `https://www.instagram.com/${instagramAccount}/`;
 
 export const studio = {
   name: 'Vision Hub Kota',
+  website: 'https://vision-hub-kota.vercel.app/',
   phone: '+91 96608 43997',
-  phoneHref: 'tel:+919660843997',
+  phoneHref: `tel:${phoneNumber}`,
+  whatsappNumber: phoneNumber.slice(1),
   address: ['3-F-27, Opera Road, Sector 3, Talwandi', 'Kota, Rajasthan 324005'],
   directions: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapAddress)}`,
-  instagram: 'https://www.instagram.com/visionhub.kota/reels/',
-  handle: '@visionhub.kota',
+  instagram: `${instagramProfile}reels/`,
+  instagramProfile,
+  instagramMessage: `https://ig.me/m/${instagramAccount}`,
+  handle: `@${instagramAccount}`,
   rating: '4.8',
   ratingSource: 'https://www.justdial.com/Kota-Rajasthan/Vision-Hub-Talwandi/9999PX744-X744-190517174002-V8L9_BZDET',
   reviewSource: 'https://yappe.in/rajasthan/kota/vision-hub-best-optical-store-in-kota/1393564#reviews',
 };
 
-export const navigation = [
-  { label: 'Eyewear', href: '#eyewear' },
-  { label: 'Eye Care', href: '#eye-care' },
-  { label: 'Visit Us', href: '#visit' },
-  { label: 'Reels', href: '#reels' },
-] as const;
-
-export const categories = [
-  {
-    name: 'Eyeglasses',
-    description: 'From barely-there to bold.',
-    image: '/images/optical.webp',
-    alt: 'Dark tortoiseshell optical frames resting on cream travertine',
-    href: '#frame-edit',
-    filter: 'eyeglasses',
-  },
-  {
-    name: 'Sunglasses',
-    description: 'A different shade of everyday.',
-    image: '/images/sun.webp',
-    alt: 'Deep olive sunglasses on a light sage surface',
-    href: '#frame-edit',
-    filter: 'sunglasses',
-  },
-  {
-    name: 'Eye tests',
-    description: 'Get to know your prescription.',
-    image: '/images/care.webp',
-    alt: 'Optical eye-test equipment in a softly lit room',
-    href: '#eye-care',
-    filter: undefined,
-  },
-] as const;
-
-export const filters = [
-  { key: 'all', label: 'All frames' },
-  { key: 'eyeglasses', label: 'Eyeglasses' },
-  { key: 'sunglasses', label: 'Sunglasses' },
-] as const;
-
-export type FrameCategory = Exclude<(typeof filters)[number]['key'], 'all'>;
-
-interface Frame {
-  id: string;
-  name: string;
-  category: FrameCategory;
-  shape: string;
-  material: string;
-  finish: string;
-  tone: string;
-  image: string;
-  alt: string;
-  description: string;
+export function whatsappEnquiry(frame?: { name: string; code: string }) {
+  const message = frame
+    ? `Hi Vision Hub Kota! I'm interested in ${frame.name} (${frame.code}). Is it available to try on?`
+    : "Hi Vision Hub Kota! I'd like help choosing a frame.";
+  return `https://wa.me/${studio.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
-export const frames: Frame[] = [
-  {
-    id: 'atelier', name: 'The Atelier', category: 'eyeglasses', shape: 'Square', material: 'Acetate',
-    finish: 'Champagne amber', tone: '#b7814d', image: '/images/atelier.webp',
-    alt: 'Square prescription glasses in transparent champagne-amber acetate',
-    description: 'A squared frame with a warm translucent finish. Try a shape like this if you want a defined brow line without the weight of a dark rim.',
-  },
-  {
-    id: 'noor', name: 'The Noor', category: 'eyeglasses', shape: 'Round', material: 'Metal',
-    finish: 'Brushed gold', tone: '#c2a163', image: '/images/noor.webp',
-    alt: 'Round prescription glasses in slender brushed gold metal',
-    description: 'Fine metal rims, a soft round shape and a brushed gold finish. A light-looking frame that leaves your features in focus.',
-  },
-  {
-    id: 'dune', name: 'The Dune', category: 'sunglasses', shape: 'Soft square', material: 'Acetate',
-    finish: 'Honey tortoiseshell', tone: '#855031', image: '/images/dune.webp',
-    alt: 'Acetate sunglasses with rounded square rims in honey tortoiseshell',
-    description: 'Rounded square rims and a deep honey finish. A good shape to try if you like a classic silhouette with just a little colour.',
-  },
-  {
-    id: 'verve', name: 'The Verve', category: 'sunglasses', shape: 'Cat-eye', material: 'Acetate',
-    finish: 'Ink black', tone: '#373832', image: '/images/verve.webp',
-    alt: 'Black acetate cat-eye sunglasses with dark lenses',
-    description: 'A slim cat-eye with an upswept brow and a glossy black finish. Try it when you want your sunglasses to be the most striking part of your outfit.',
-  },
-];
+export const navigation = [
+  { label: 'Eyewear', href: '/#eyewear' },
+  { label: 'Eye Care', href: '/#eye-care' },
+  { label: 'Visit Us', href: '/#visit' },
+  { label: 'Reels', href: '/#reels' },
+] as const;
 
 export const fitGuide = [
   {
@@ -117,9 +56,9 @@ export const reviews = [
 ];
 
 export const searchPages = [
-  { name: 'Eyeglasses', detail: 'Explore the optical frame edit', href: '#frame-edit', filter: 'eyeglasses', terms: 'spectacles specs frames prescription' },
-  { name: 'Sunglasses', detail: 'Explore the sun frame edit', href: '#frame-edit', filter: 'sunglasses', terms: 'shades frames sun' },
-  { name: 'Eye tests & lens guidance', detail: 'Book a test or ask about lenses', href: '#eye-care', terms: 'eye care exam checkup contact lenses progressive prescription optician' },
-  { name: 'Visit the studio', detail: 'Find us in Talwandi, Kota', href: '#visit', terms: 'directions map phone contact address hours opera road' },
-  { name: 'Vision Hub Reels', detail: 'Watch reels and find us on Instagram', href: '#reels', terms: 'video social instagram visionhub.kota' },
+  { name: 'Eyewear catalogue', detail: 'Browse all frames', href: '/#frame-edit', terms: 'spectacles eyeglasses specs frames prescription' },
+  { name: 'Eye tests & lens guidance', detail: 'Book a test or ask about lenses', href: '/#eye-care', terms: 'eye care exam checkup contact lenses progressive prescription optician sunglasses' },
+  { name: 'Visit the studio', detail: 'Find us in Talwandi, Kota', href: '/#visit', terms: 'directions map phone contact address hours opera road' },
+  { name: 'Contact Vision Hub', detail: 'Call, WhatsApp or message on Instagram', href: '/#enquire', terms: 'availability buy enquire message whatsapp instagram phone' },
+  { name: 'Vision Hub Reels', detail: 'Watch reels and find us on Instagram', href: '/#reels', terms: 'video social instagram visionhub.kota' },
 ] as const;

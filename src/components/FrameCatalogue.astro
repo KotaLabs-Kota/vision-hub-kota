@@ -1,0 +1,62 @@
+---
+import FrameCard from './FrameCard.astro';
+import Icon from './Icon.astro';
+import { catalogueGroups, photoSrc } from '../lib/catalogue';
+import '../styles/catalogue.css';
+---
+<section class="section shell collection" id="eyewear" aria-labelledby="collection-title">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">Shop by style</span>
+      <h2 id="collection-title">Find your kind <em>of frame.</em></h2>
+    </div>
+    <a class="text-link" href="#frame-edit">Browse all frames <Icon name="right" size={18} /></a>
+  </div>
+  <div class="category-grid">
+    {catalogueGroups.map((group, index) => {
+      const [cover] = group.frames;
+      return (
+        <a class="category-card" href={`#${group.id}`}>
+          <div class="category-image">
+            <img src={photoSrc(cover, cover.photos[0], true)} alt="" width="480" height="270" loading="lazy" decoding="async" />
+            <span class="category-index micro" aria-hidden="true">0{index + 1}</span>
+          </div>
+          <div class="category-body">
+            <div><h3>{group.name}</h3><p>{group.frames.length} {group.frames.length === 1 ? 'style' : 'styles'}</p></div>
+            <span class="category-arrow"><Icon name="right" size={20} /></span>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+</section>
+
+<section class="section frame-section" id="frame-edit" aria-labelledby="frame-edit-title">
+  <div class="shell">
+    <div class="section-heading frame-heading">
+      <div>
+        <span class="eyebrow">The Vision Hub catalogue</span>
+        <h2 id="frame-edit-title">Explore the <em>frame edit.</em></h2>
+        <p>Open any frame for a closer look, then ask us about availability, lenses or trying it on in Talwandi.</p>
+      </div>
+    </div>
+    {catalogueGroups.map((group) => (
+      <section class="frame-group" id={group.id} aria-labelledby={`${group.id}-title`}>
+        <div class="frame-group-heading">
+          <div>
+            <h3 id={`${group.id}-title`}>{group.name}</h3>
+            <p>{group.description}</p>
+          </div>
+          <span class="micro">{group.frames.length} {group.frames.length === 1 ? 'style' : 'styles'}</span>
+        </div>
+        <div class="frame-grid">
+          {group.frames.map((frame) => <FrameCard frame={frame} />)}
+        </div>
+      </section>
+    ))}
+    <div class="frame-note">
+      <p class="fine-print">Please confirm availability with the studio before visiting.</p>
+      <a class="text-link" href="#enquire">Ask about a frame <Icon name="right" size={18} /></a>
+    </div>
+  </div>
+</section>

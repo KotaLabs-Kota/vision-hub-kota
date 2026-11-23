@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+import { frameHref, photoSrc, type Frame } from '../lib/catalogue';
+
+interface Props {
+  frame: Frame;
+}
+
+const { frame } = Astro.props;
+---
+<article class="frame-card">
+  <div class="frame-image">
+    <img src={photoSrc(frame, frame.photos[0], true)} width="480" height="270" loading="lazy" decoding="async" alt="" />
+  </div>
+  <div class="frame-body">
+    <span class="micro">{frame.code} · {frame.shape}</span>
+    <h4><a class="frame-link" href={frameHref(frame)}>{frame.name}</a></h4>
+    <p>{frame.finish}</p>
+    <span class="frame-open" aria-hidden="true">View frame <Icon name="right" size={16} /></span>
+  </div>
+  <button type="button" class="icon-button frame-save requires-js" data-save-frame={frame.id} aria-label={`Save ${frame.name}`} aria-pressed="false"><Icon name="heart" size={19} /></button>
+</article>

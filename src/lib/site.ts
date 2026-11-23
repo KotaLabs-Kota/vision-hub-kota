@@ -1,7 +1,8 @@
-import { filters, frames, searchPages } from './studio';
+import { catalogueGroups, frameHref, frames, photoSrc } from './catalogue';
+import { searchPages } from './studio';
 
 const frameById = new Map(frames.map((frame) => [frame.id, frame]));
-const categoryLabel = new Map<string, string>(filters.map((filter) => [filter.key, filter.label]));
+const cataloguePages = catalogueGroups.map((group) => ({ name: group.name, detail: group.description, href: `/#${group.id}`, terms: 'frames eyeglasses specs' }));
 const storageKey = 'vision-hub-saved-frames';
 const pad = (value: number) => String(value).padStart(2, '0');
 
@@ -17,7 +18,6 @@ function readSaved(): Set<string> {
 let saved = readSaved();
 const savedDialog = document.querySelector<HTMLDialogElement>('#saved-dialog');
 const searchDialog = document.querySelector<HTMLDialogElement>('#search-dialog');
-const frameDialog = document.querySelector<HTMLDialogElement>('#frame-dialog');
 const menuDialog = document.querySelector<HTMLDialogElement>('#menu-dialog');
 const searchInput = document.querySelector<HTMLInputElement>('#site-search');
 const searchResults = document.querySelector('#search-results');
@@ -34,59 +34,27 @@ function openDialog(dialog: HTMLDialogElement) {
   dialog.showModal();
 }
 
-function showFrame(id: string) {
-  const frame = frameById.get(id);
-  if (!frame || !frameDialog) return;
-  const image = frameDialog.querySelector<HTMLImageElement>('#frame-dialog-image');
-  if (image) {
-    image.src = frame.image;
-    image.alt = frame.alt;
-  }
-  text('frame-dialog-category', categoryLabel.get(frame.category) ?? frame.category);
-  text('frame-dialog-title', frame.name);
-  text('frame-dialog-meta', `${frame.shape} · ${frame.material} · ${frame.finish}`);
-  text('frame-dialog-description', frame.description);
-  const save = frameDialog.querySelector<HTMLButtonElement>('[data-save-current]');
-  if (save) {
-    save.dataset.saveFrame = frame.id;
-    save.setAttribute('aria-pressed', String(saved.has(frame.id)));
-  }
-  openDialog(frameDialog);
-}
-
-function resultRow(name: string, detail: string, action: { href: string; filter?: string } | { frameId: string }) {
+function resultRow(name: string, detail: string, href: string, photo?: string) {
   const row = document.createElement('div');
   row.className = 'panel-row';
+  const link = document.createElement('a');
+  link.className = 'panel-result';
+  link.href = href;
+  if (photo) {
+    const image = document.createElement('img');
+    image.src = photo;
+    image.alt = '';
+    image.width = 57;
+    image.height = 32;
+    link.append(image);
+  }
   const label = document.createElement('span');
   label.textContent = name;
   const caption = document.createElement('small');
   caption.textContent = detail;
   label.append(caption);
-  if ('href' in action) {
-    const link = document.createElement('a');
-    link.className = 'panel-result';
-    link.href = action.href;
-    if (action.filter) link.dataset.setFilter = action.filter;
-    link.append(label);
-    row.append(link);
-  } else {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'panel-result';
-    button.dataset.openFrame = action.frameId;
-    button.setAttribute('aria-haspopup', 'dialog');
-    const frame = frameById.get(action.frameId);
-    if (frame) {
-      const image = document.createElement('img');
-      image.src = frame.image;
-      image.alt = '';
-      image.width = 57;
-      image.height = 40;
-      button.append(image);
-    }
-    button.append(label);
-    row.append(button);
-  }
+  link.append(label);
+  row.append(link);
   return row;
 }
 
@@ -101,13 +69,13 @@ function renderSearch(query = searchInput?.value ?? '') {
   if (!searchResults) return;
   const words = query.toLowerCase().trim().split(/\s+/u).filter(Boolean);
   const matches = (value: string) => words.every((word) => value.toLowerCase().includes(word));
-  const results = searchPages
+  const results = [...searchPages, ...cataloguePages]
     .filter((page) => matches(`${page.name} ${page.detail} ${page.terms}`))
-    .map((page) => resultRow(page.name, page.detail, page));
+    .map((page) => resultRow(page.name, page.detail, page.href));
   if (words.length) {
     results.unshift(...frames
-      .filter((frame) => matches(`${frame.name} ${frame.category} ${frame.shape} ${frame.material} ${frame.finish}`))
-      .map((frame) => resultRow(frame.name, `${frame.shape} · ${categoryLabel.get(frame.category)}`, { frameId: frame.id })));
+      .filter((frame) => matches(`${frame.name} ${frame.code} ${frame.section.replaceAll('-', ' ')} ${frame.shape} ${frame.finish} eyeglasses specs`))
+      .map((frame) => resultRow(frame.name, `${frame.code} · ${frame.finish}`, frameHref(frame), photoSrc(frame, frame.photos[0], true))));
   }
   searchResults.replaceChildren(...(results.length ? results : [emptyMessage('No results. Try “frames”, “eye test” or “directions”.')]));
   text('search-status', words.length ? `${results.length} result${results.length === 1 ? '' : 's'}` : 'Popular searches');
@@ -116,7 +84,7 @@ function renderSearch(query = searchInput?.value ?? '') {
 function renderSaved() {
   if (!savedResults) return;
   const rows = frames.filter((frame) => saved.has(frame.id)).map((frame) => {
-    const row = resultRow(frame.name, `${frame.shape} · ${categoryLabel.get(frame.category)}`, { frameId: frame.id });
+    const row = resultRow(frame.name, `${frame.code} · ${frame.finish}`, frameHref(frame), photoSrc(frame, frame.photos[0], true));
     const remove = document.createElement('button');
     remove.type = 'button';
     remove.textContent = 'Remove';
@@ -155,19 +123,6 @@ function toggleFrame(id: string) {
   text('saved-status', removing ? `${frame.name} removed from saved frames.` : `${frame.name} added to saved frames.`);
 }
 
-function setFilter(key: string) {
-  if (!categoryLabel.has(key)) return;
-  document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((button) => {
-    button.setAttribute('aria-pressed', String(button.dataset.filter === key));
-  });
-  let count = 0;
-  document.querySelectorAll<HTMLElement>('[data-frame-card]').forEach((card) => {
-    card.hidden = key !== 'all' && key !== card.dataset.frameCard;
-    if (!card.hidden) count += 1;
-  });
-  text('frame-status', `${categoryLabel.get(key)}: ${count} styles shown.`);
-}
-
 updateSaveControls();
 window.addEventListener('storage', (event) => {
   if (event.key === storageKey || event.key === null) {
@@ -177,7 +132,7 @@ window.addEventListener('storage', (event) => {
 });
 searchInput?.addEventListener('input', () => renderSearch());
 
-const dialogList = [searchDialog, savedDialog, frameDialog, menuDialog];
+const dialogList = [searchDialog, savedDialog, menuDialog];
 for (const dialog of dialogList) {
   dialog?.addEventListener('click', (event) => {
     if (event.target !== dialog) return;
@@ -190,7 +145,7 @@ document.addEventListener('click', (event) => {
   if (!(event.target instanceof Element)) return;
   const control = event.target.closest<HTMLElement>('button, a');
   if (!control) return;
-  const { dialogOpen, openFrame, saveFrame, removeFrame, setFilter: selectedFilter, filter } = control.dataset;
+  const { dialogOpen, saveFrame, removeFrame } = control.dataset;
   if (dialogOpen) {
     const dialog = dialogList.find((item) => item?.id === dialogOpen);
     if (!dialog) return;
@@ -198,14 +153,13 @@ document.addEventListener('click', (event) => {
     if (dialog === savedDialog) renderSaved();
     openDialog(dialog);
   }
-  if (openFrame) showFrame(openFrame);
   if (saveFrame) toggleFrame(saveFrame);
   if (removeFrame && saved.has(removeFrame)) {
     toggleFrame(removeFrame);
     (savedResults?.querySelector<HTMLElement>('[data-remove-frame]') ?? savedDialog?.querySelector<HTMLElement>('.panel-close button'))?.focus();
   }
-  if (selectedFilter || filter) setFilter(selectedFilter ?? filter ?? 'all');
-  if (control instanceof HTMLAnchorElement && control.getAttribute('href')?.startsWith('#')) {
+  // Close on regular navigation so anchor links and the Back button don't leave a dialog open.
+  if (control instanceof HTMLAnchorElement && !control.target && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
     control.closest<HTMLDialogElement>('dialog[open]')?.close();
   }
 });

@@ -81,7 +81,7 @@ const mediaPreload = (reel: (typeof reels)[number]) => reel.poster && reel.durat
           </>
         ) : (
           <a class="reel-cover" href={studio.instagram} target="_blank" rel="noopener noreferrer">
-            <img src="/images/reel.webp" width="550" height="985" loading="lazy" decoding="async" alt="" />
+            <Icon name="mark" class="reel-cover-mark" size={190} />
             <span class="reel-cover-top"><Icon name="instagram" size={16} /> Reels</span>
             <span class="reel-play"><Icon name="play" size={27} /></span>
             <span class="reel-cover-bottom">Watch on Instagram <Icon name="diagonal" size={16} /></span>

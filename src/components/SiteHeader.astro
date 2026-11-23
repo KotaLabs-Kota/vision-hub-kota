@@ -1,0 +1,24 @@
+---
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
+import { navigation, studio } from '../lib/studio';
+---
+<div class="location-bar">
+  <a href={studio.directions} target="_blank" rel="noopener noreferrer">
+    <Icon name="pin" size={15} /> <span>Talwandi, Kota</span><span class="location-divider" aria-hidden="true"></span><span class="location-directions">Get directions <Icon name="diagonal" size={13} /></span>
+  </a>
+</div>
+<header class="site-header">
+  <div class="shell header-inner">
+    <Brand />
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button requires-js" type="button" data-dialog-open="search-dialog" aria-label="Search" aria-haspopup="dialog"><Icon name="search" size={22} /></button>
+      <button class="icon-button header-saved requires-js" type="button" data-dialog-open="saved-dialog" aria-label="Saved frames" aria-haspopup="dialog"><Icon name="heart" size={22} /><span class="saved-count" data-saved-count aria-hidden="true" hidden></span></button>
+      <a class="button button-outline nav-cta" href="/#eye-care">Book an eye test <Icon name="diagonal" size={15} /></a>
+      <button class="icon-button mobile-menu requires-js" type="button" data-dialog-open="menu-dialog" aria-label="Open menu" aria-haspopup="dialog"><Icon name="menu" size={22} /></button>
+    </div>
+  </div>
+</header>

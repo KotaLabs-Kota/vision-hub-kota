@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro';
+import { photoSrc, viewLabels, type Frame } from '../lib/catalogue';
+
+interface Props {
+  frame: Frame;
+}
+
+const { frame } = Astro.props;
+const [first] = frame.photos;
+---
+<div class="product-gallery" data-frame-gallery>
+  <figure class="product-stage">
+    <img id="frame-photo" src={photoSrc(frame, first)} width="1120" height="630" alt={first.alt} fetchpriority="high" />
+    <figcaption>
+      <span class="micro" data-photo-label aria-live="polite">{viewLabels[first.view]} view</span>
+      <a href={photoSrc(frame, first)} class="product-photo-link" data-photo-full target="_blank" rel="noopener noreferrer">Open full photo <Icon name="diagonal" size={15} /><span class="sr-only"> (opens in a new tab)</span></a>
+    </figcaption>
+  </figure>
+  {frame.photos.length > 1 && (
+    <ul class="product-views" aria-label="Product photo views">
+      {frame.photos.map((photo, index) => (
+        <li>
+          <a class="product-view" href={photoSrc(frame, photo)} data-photo-view={viewLabels[photo.view]} data-photo-alt={photo.alt} aria-current={index === 0 ? 'true' : undefined}>
+            <img src={photoSrc(frame, photo, true)} width="480" height="270" alt="" decoding="async" />
+            <span>{viewLabels[photo.view]}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+<script src="../lib/frame-gallery.ts"></script>
+
+<style>
+  .product-gallery { min-width: 0; }
+  .product-stage { border: 1px solid var(--hairline); border-radius: var(--radius); background: #fff; }
+  .product-stage > img { width: 100%; height: auto; border-radius: var(--radius) var(--radius) 0 0; }
+  figcaption { display: flex; align-items: center; justify-content: space-between; gap: 6px 14px; min-height: 45px; padding: 4px clamp(10px, 1.5vw, 17px); border-top: 1px solid var(--hairline); background: var(--paper); }
+  .product-photo-link { display: inline-flex; align-items: center; gap: 4px; min-height: 36px; color: var(--olive); font-size: 12px; font-weight: 800; }
+  .product-photo-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .product-views { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(6px, 1vw, 12px); list-style: none; padding: 0; margin: 10px 0 0; }
+  .product-view { display: block; padding: 3px; border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--paper); color: var(--olive); text-align: center; font-size: 11px; font-weight: 800; }
+  .product-view[aria-current], .product-view:hover { border-color: var(--olive); background: var(--sage); }
+  .product-view img { width: 100%; height: auto; border-radius: 2px; }
+  .product-view span { display: block; padding-block: 3px 2px; }
+</style>
